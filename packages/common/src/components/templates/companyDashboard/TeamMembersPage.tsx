@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Avatar, Spin } from "antd";
 import {
   CopyOutlined,
@@ -18,12 +18,17 @@ import {
 import { handlePrivateApiError } from "../../../api/errorHandler";
 import type { ICommonApiError } from "../../../api/errorHandler";
 import type { ITeamMember } from "../../../api/userApi/types";
+import { COMPANY_BILLING } from "../../../HOC/routes/routes";
 import { toast } from "../../../utils/toast";
 
 const TeamMembersPage: React.FC = () => {
   const { userName } = useParams<{ userName: string }>();
+  const navigate = useNavigate();
   const { company } = useCompanyContext();
   const { user, onLogout } = useAuthContext();
+
+  const isFreePlan = !company?.plan || company.plan === "free";
+  const canAddMembers = !isFreePlan;
 
   const [loading, setLoading] = useState(true);
   const [owner, setOwner] = useState<ITeamMember | null>(null);
@@ -161,42 +166,60 @@ const TeamMembersPage: React.FC = () => {
 
       {isOwner && (
         <div className="rounded-2xl border border-borders-light-1 bg-white p-6 space-y-4">
-          <Heading $level={5}>Invite Link</Heading>
+          {canAddMembers ? (
+            <>
+              <Heading $level={5}>Invite Link</Heading>
 
-          <Button
-            type="outlined"
-            color="primary"
-            icon={<LinkOutlined />}
-            loading={generating}
-            onClick={generateTeamInviteApiAction}
-          >
-            Generate Link
-          </Button>
-
-          {inviteUrl && (
-            <div className="flex items-center gap-3">
-              <div className="flex-1 truncate rounded-lg border border-borders-light-1 bg-background-body-2-light-1 px-4 py-2 font-mono text-sm">
-                {inviteUrl}
-              </div>
               <Button
                 type="outlined"
                 color="primary"
-                icon={<CopyOutlined />}
-                onClick={handleCopyLink}
+                icon={<LinkOutlined />}
+                loading={generating}
+                onClick={generateTeamInviteApiAction}
               >
-                Copy
+                Generate Link
+              </Button>
+
+              {inviteUrl && (
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 truncate rounded-lg border border-borders-light-1 bg-background-body-2-light-1 px-4 py-2 font-mono text-sm">
+                    {inviteUrl}
+                  </div>
+                  <Button
+                    type="outlined"
+                    color="primary"
+                    icon={<CopyOutlined />}
+                    onClick={handleCopyLink}
+                  >
+                    Copy
+                  </Button>
+                </div>
+              )}
+
+              {inviteUrl && (
+                <Paragraph
+                  $level={5}
+                  $typographyPalette="subtitle"
+                  className="!mb-0"
+                >
+                  Link expires in 3 days. Single-use.
+                </Paragraph>
+              )}
+            </>
+          ) : (
+            <div className="space-y-3">
+              <Heading $level={5}>Team Members</Heading>
+              <Paragraph $level={4} $typographyPalette="subtitle" className="!mb-0">
+                Upgrade to a paid plan to add team members to your company.
+              </Paragraph>
+              <Button
+                type="outlined"
+                color="primary"
+                onClick={() => navigate(COMPANY_BILLING(userName || ""))}
+              >
+                View Plans
               </Button>
             </div>
-          )}
-
-          {inviteUrl && (
-            <Paragraph
-              $level={5}
-              $typographyPalette="subtitle"
-              className="!mb-0"
-            >
-              Link expires in 3 days. Single-use.
-            </Paragraph>
           )}
         </div>
       )}

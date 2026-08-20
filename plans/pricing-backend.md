@@ -8,7 +8,7 @@ Add subscription/pricing system at the company level. Enforce plan limits on job
 
 | Plan       | Price/mo | Active Job Limit | Team Members |
 |------------|----------|------------------|--------------|
-| Free       | $0       | 2                | 1            |
+| Free       | $0       | 2                | 0            |
 | Bootstrap  | $29      | 3                | Unlimited    |
 | Startup    | $49      | 10               | Unlimited    |
 | Business   | $129     | 20               | Unlimited    |
@@ -61,7 +61,7 @@ export const PLAN_CONFIG = {
 ## Enforcement
 
 - Job creation: check `activeJobsCount < plan.activeJobLimit`
-- Team invite: free plan = max 1 member (creator only)
+- Team invite: free plan = 0 members, block invite generation + join with 403
 
 ## Files
 

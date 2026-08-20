@@ -40,7 +40,7 @@ ITransaction: same as ISubscription (for history list)
 ### Plan config constant
 ```ts
 PLAN_CONFIG = {
-  free:      { price: 0,   activeJobLimit: 2,  teamMembers: 1 },
+  free:      { price: 0,   activeJobLimit: 2,  teamMembers: 0 },
   bootstrap: { price: 29,  activeJobLimit: 3,  teamMembers: Infinity },
   startup:   { price: 49,  activeJobLimit: 10, teamMembers: Infinity },
   business:  { price: 129, activeJobLimit: 20, teamMembers: Infinity },
