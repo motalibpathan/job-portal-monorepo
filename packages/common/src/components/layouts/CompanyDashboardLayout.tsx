@@ -23,7 +23,6 @@ import {
   COMPANY_JOBS,
   COMPANY_SETTINGS,
   COMPANY_TEAM,
-  COMPANY_VIEW_JOBS_PAGE,
 } from "../../HOC/routes/routes";
 
 const { Sider, Header, Content } = Layout;
@@ -59,11 +58,6 @@ const CompanyDashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
         key: COMPANY_JOBS(userName),
         icon: <FileTextOutlined />,
         label: "Jobs",
-      },
-      {
-        key: COMPANY_VIEW_JOBS_PAGE(userName),
-        icon: <ExportOutlined />,
-        label: "View Jobs Page",
       },
       {
         key: COMPANY_APPLICATIONS(userName),
@@ -137,13 +131,7 @@ const CompanyDashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
             mode="inline"
             items={menuItems}
             selectedKeys={selectedKey ? [selectedKey] : []}
-            onClick={({ key }) => {
-              if (userName && key === COMPANY_VIEW_JOBS_PAGE(userName)) {
-                window.open(getJobPortalUrl(userName), "_blank");
-              } else {
-                navigate(key);
-              }
-            }}
+            onClick={({ key }) => navigate(key)}
             className="border-none"
           />
         </Sider>
@@ -161,6 +149,18 @@ const CompanyDashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
             {company?.name || "Company Portal"}
           </Paragraph>
           <div className="flex items-center gap-4">
+            <Button
+              type="outlined"
+              color="primary"
+              icon={<ExportOutlined />}
+              onClick={() => {
+                if (userName) {
+                  window.open(getJobPortalUrl(userName), "_blank");
+                }
+              }}
+            >
+              View Jobs Page
+            </Button>
             <Paragraph
               $level={5}
               $typographyPalette="subtitle"
