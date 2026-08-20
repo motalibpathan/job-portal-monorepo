@@ -8,26 +8,19 @@ import { Paragraph } from "../../atoms/typography/paragraph";
 import { TextFieldForm } from "../../molecules/inputs/textField";
 import { TrashIcon } from "../../atoms/icons";
 import type { IHiringStage } from "../../../api/userApi/types";
+import {
+  jobHiringStages,
+  JOB_HIRING_STAGE_TEXT_MAP,
+  JOB_HIRING_STAGE_COLOR_MAP,
+} from "../../../api/userApi/types";
 
-const DEFAULT_STAGES: IHiringStage[] = [
-  { stageId: "applied", name: "Applied", order: 1 },
-  { stageId: "screening", name: "Screening", order: 2 },
-  { stageId: "interview", name: "Interview", order: 3 },
-  { stageId: "evaluation", name: "Evaluation", order: 4 },
-  { stageId: "offer", name: "Offer", order: 5 },
-  { stageId: "hired", name: "Hired", order: 6 },
-  { stageId: "archive", name: "Archive", order: 7 },
-];
+const DEFAULT_STAGES: IHiringStage[] = jobHiringStages.map((stageId, i) => ({
+  stageId,
+  name: JOB_HIRING_STAGE_TEXT_MAP[stageId],
+  order: i + 1,
+}));
 
-const STAGE_COLORS: Record<string, string> = {
-  applied: "blue",
-  screening: "cyan",
-  interview: "purple",
-  evaluation: "orange",
-  offer: "gold",
-  hired: "green",
-  archive: "default",
-};
+const STAGE_COLORS: Record<string, string> = { ...JOB_HIRING_STAGE_COLOR_MAP };
 
 interface IHiringStageBuilderProps {
   stages: IHiringStage[];

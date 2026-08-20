@@ -8,16 +8,17 @@ import { Paragraph } from "../../atoms/typography/paragraph";
 import { TextFieldForm } from "../../molecules/inputs/textField";
 import { SelectForm } from "../../molecules/selects";
 import { Checkbox } from "../../atoms/inputs";
-import type { IApplicationFormField, TJobFieldType } from "../../../api/userApi/types";
+import type { IApplicationFormField, TJobApplicationFieldType } from "../../../api/userApi/types";
+import {
+  jobApplicationFieldTypes,
+  JOB_APPLICATION_FIELD_TYPE_TEXT_MAP,
+} from "../../../api/userApi/types";
 
-const FIELD_TYPE_OPTIONS: { value: TJobFieldType; label: string }[] = [
-  { value: "short-text", label: "Short Text" },
-  { value: "long-text", label: "Long Text" },
-  { value: "phone-number", label: "Phone Number" },
-  { value: "email", label: "Email" },
-  { value: "link", label: "Link" },
-  { value: "document-upload", label: "Document Upload" },
-];
+const FIELD_TYPE_OPTIONS: { value: TJobApplicationFieldType; label: string }[] =
+  jobApplicationFieldTypes.map((value) => ({
+    value,
+    label: JOB_APPLICATION_FIELD_TYPE_TEXT_MAP[value],
+  }));
 
 const DEFAULT_FIELD: Omit<IApplicationFormField, "order"> = {
   fieldId: "",
@@ -120,7 +121,7 @@ const ApplicationFormBuilder: React.FC<IApplicationFormBuilderProps> = ({
               labelText="Field Type"
               name={`field_type_${index}`}
               value={field.fieldType}
-              onChange={(val: TJobFieldType) => updateField(index, { fieldType: val })}
+              onChange={(val: TJobApplicationFieldType) => updateField(index, { fieldType: val })}
               options={FIELD_TYPE_OPTIONS}
               className="flex-1"
             />

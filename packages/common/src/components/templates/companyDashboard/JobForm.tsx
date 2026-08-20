@@ -31,36 +31,36 @@ import type {
   IJobCategory,
   ICreateJobPayload,
 } from "../../../api/userApi/types";
+import {
+  JOB_REMOTE_OPTION_TEXT_MAP,
+  jobRemoteOptions,
+  JOB_EMPLOYMENT_TYPE_TEXT_MAP,
+  jobEmploymentTypes,
+  JOB_APPLICATION_FIELD_TYPES,
+  jobHiringStages,
+  JOB_HIRING_STAGE_TEXT_MAP,
+} from "../../../api/userApi/types";
 
-const REMOTE_OPTIONS = [
-  { value: "on-site", label: "On-site" },
-  { value: "hybrid", label: "Hybrid" },
-  { value: "remote", label: "Remote" },
-];
+const REMOTE_OPTIONS = jobRemoteOptions.map((value) => ({
+  value,
+  label: JOB_REMOTE_OPTION_TEXT_MAP[value],
+}));
 
-const EMPLOYMENT_OPTIONS = [
-  { value: "full-time", label: "Full Time" },
-  { value: "part-time", label: "Part Time" },
-  { value: "contract", label: "Contract" },
-  { value: "internship", label: "Internship" },
-  { value: "temporary", label: "Temporary" },
-  { value: "freelance", label: "Freelance" },
-];
+const EMPLOYMENT_OPTIONS = jobEmploymentTypes.map((value) => ({
+  value,
+  label: JOB_EMPLOYMENT_TYPE_TEXT_MAP[value],
+}));
 
 const DEFAULT_APPLICATION_FORM: IApplicationFormField[] = [
-  { fieldId: "field_name", label: "Full Name", fieldType: "short-text", required: true, order: 0 },
-  { fieldId: "field_email", label: "Email", fieldType: "email", required: true, order: 1 },
+  { fieldId: "field_name", label: "Full Name", fieldType: JOB_APPLICATION_FIELD_TYPES.SHORT_TEXT, required: true, order: 0 },
+  { fieldId: "field_email", label: "Email", fieldType: JOB_APPLICATION_FIELD_TYPES.EMAIL, required: true, order: 1 },
 ];
 
-const DEFAULT_STAGES: IHiringStage[] = [
-  { stageId: "applied", name: "Applied", order: 1 },
-  { stageId: "screening", name: "Screening", order: 2 },
-  { stageId: "interview", name: "Interview", order: 3 },
-  { stageId: "evaluation", name: "Evaluation", order: 4 },
-  { stageId: "offer", name: "Offer", order: 5 },
-  { stageId: "hired", name: "Hired", order: 6 },
-  { stageId: "archive", name: "Archive", order: 7 },
-];
+const DEFAULT_STAGES: IHiringStage[] = jobHiringStages.map((stageId, i) => ({
+  stageId,
+  name: JOB_HIRING_STAGE_TEXT_MAP[stageId],
+  order: i + 1,
+}));
 
 const JobForm: React.FC = () => {
   const { userName, slug } = useParams<{ userName: string; slug: string }>();
@@ -145,7 +145,7 @@ const JobForm: React.FC = () => {
     employmentType: employmentType as ICreateJobPayload["employmentType"],
   });
 
-  const saveJobApiAction = async (_status?: "draft" | "published") => {
+  const saveJobApiAction = async () => {
     if (!userName) return;
     const result = validate({
       title: title.trim(),
@@ -324,7 +324,7 @@ const JobForm: React.FC = () => {
           type="filled"
           color="gray"
           loading={saving}
-          onClick={() => saveJobApiAction("draft")}
+          onClick={() => saveJobApiAction()}
         >
           Save as Draft
         </Button>
@@ -332,7 +332,7 @@ const JobForm: React.FC = () => {
           type="filled"
           color="primary"
           loading={saving}
-          onClick={() => saveJobApiAction("published")}
+          onClick={() => saveJobApiAction()}
         >
           Publish
         </Button>

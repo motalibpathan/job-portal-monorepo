@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  jobRemoteOptions,
+  jobEmploymentTypes,
+} from "../api/userApi/types";
 
 export const signupSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -38,12 +42,12 @@ export const companyInfoSchema = z.object({
 export type TCompanyInfoInput = z.infer<typeof companyInfoSchema>;
 
 export const jobFormSchema = z.object({
-  title: z.string().min(1, "Job title is required"),
+  title: z.string().min(1, "Job title is required").trim(),
   categoryId: z.string().min(1, "Please select a category"),
-  description: z.string().optional(),
-  country: z.string().optional(),
-  remoteOption: z.string().min(1, "Remote option is required"),
-  employmentType: z.string().min(1, "Employment type is required"),
+  description: z.string().min(1, "Description is required").trim(),
+  country: z.string().min(1, "Country is required").trim(),
+  remoteOption: z.enum(jobRemoteOptions as [string, ...string[]]),
+  employmentType: z.enum(jobEmploymentTypes as [string, ...string[]]),
 });
 export type TJobFormInput = z.infer<typeof jobFormSchema>;
 

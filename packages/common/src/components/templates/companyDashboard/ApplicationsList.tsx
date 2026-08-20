@@ -19,21 +19,21 @@ import type {
   IJobApplication,
   TJobApplicationStatus,
 } from "../../../api/userApi/types";
+import {
+  jobApplicationStatuses,
+  JOB_APPLICATION_STATUS_TEXT_MAP,
+  JOB_APPLICATION_STATUS_COLOR_MAP,
+} from "../../../api/userApi/types";
 
 const STATUS_OPTIONS: { value: TJobApplicationStatus | "all"; label: string }[] = [
   { value: "all", label: "All Statuses" },
-  { value: "submitted", label: "Submitted" },
-  { value: "reviewing", label: "Reviewing" },
-  { value: "rejected", label: "Rejected" },
-  { value: "hired", label: "Hired" },
+  ...jobApplicationStatuses.map((value) => ({
+    value,
+    label: JOB_APPLICATION_STATUS_TEXT_MAP[value],
+  })),
 ];
 
-const statusColors: Record<string, string> = {
-  submitted: "default",
-  reviewing: "processing",
-  rejected: "error",
-  hired: "success",
-};
+const statusColors: Record<string, string> = { ...JOB_APPLICATION_STATUS_COLOR_MAP };
 
 const ApplicationsList: React.FC = () => {
   const { userName } = useParams<{ userName: string }>();

@@ -36,7 +36,7 @@ common/src/
 │   ├── apiRequest.ts           # Axios instances (public + private) with interceptors
 │   ├── errorHandler.ts         # HTTP error → user-friendly message mapping
 │   └── userApi/
-│       ├── types.ts            # All API domain types (IUser, ICompany, etc.)
+│       ├── types.ts            # All API domain types + enums (JOB_REMOTE_OPTIONS, etc.)
 │       └── userApi.ts          # API functions (login, signup, companies, etc.)
 ├── components/
 │   ├── atoms/                  # Primitives: Button, Heading, TextField, Select, Modal, Form

@@ -55,6 +55,31 @@ Both UI apps consume `common` at **source level** via path aliases (not compiled
 - Environment variables use `VITE_` prefix
 - Node requirement: `>=22.0.0`
 
+### Enums Pattern
+
+All enum-like values must use the const+array+type pattern (matching backend `src/constants/jobEnums.ts`):
+
+```ts
+// 1. Const object with UPPER_CASE keys
+export const JOB_REMOTE_OPTIONS = {
+  ON_SITE: "on-site" as const,
+  HYBRID: "hybrid" as const,
+  REMOTE: "remote" as const,
+};
+
+// 2. Array of values (for runtime iteration and Zod enums)
+export const jobRemoteOptions = Object.values(JOB_REMOTE_OPTIONS);
+
+// 3. Type derived from the array
+export type TJobRemoteOption = (typeof jobRemoteOptions)[number];
+```
+
+- Constants live in `common/src/api/userApi/types.ts`
+- Re-exported from `common/src/index.ts` and `common/src/validators/index.ts`
+- Use `JOB_*` for the const object, `job*` (camelCase) for the array, `T*` for the type
+- Zod validators use `z.enum(array as [string, ...string[]])` — never `z.string()` for enum fields
+- Both frontend and backend must define identical enum values
+
 ## Architecture Patterns
 
 - **State**: React Context (AuthContext, CompanyContext) — no Redux/Zustand
