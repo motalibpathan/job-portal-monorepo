@@ -1,0 +1,32 @@
+{
+  "name": "@job-portal/ui-root",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start:user": "lerna exec --scope @job-portal/user-ui -- yarn dev",
+    "start:admin": "lerna exec --scope @job-portal/admin-ui -- yarn dev",
+    "build:user": "lerna exec --scope @job-portal/user-ui -- yarn build",
+    "build:admin": "lerna exec --scope @job-portal/admin-ui -- yarn build",
+    "build": "yarn build:admin && yarn build:user",
+    "lint:user": "lerna exec --scope @job-portal/user-ui -- yarn lint",
+    "lint:admin": "lerna exec --scope @job-portal/admin-ui -- yarn lint",
+    "lint:common": "lerna exec --scope @job-portal/common -- yarn lint",
+    "clean:dependencies": "rm -rf ./node_modules && rm -rf ./*/**/node_modules",
+    "clean:build": "rm -rf ./*/**/build",
+    "clean": "yarn clean:dependencies && yarn clean:build"
+  },
+  "devDependencies": {
+    "lerna": "^9.0.3"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/**"
+    ]
+  },
+  "packageManager": "yarn@1.22.22",
+  "dependencies": {
+    "zod": "^3.24.4"
+  }
+}

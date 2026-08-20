@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import "../../../packages/common/src/styles/index.css";
+@source "../src/**/*.{ts,tsx}";
+@source "../../../packages/common/src/**/*.{ts,tsx}";
+
+:root {
+  --primary-color: #2980b9;
+  --danger-color: #cf1322;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  height: auto !important;
+  background-color: #f4f3f6;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ant Design global overrides */
+.ant-typography {
+  margin-bottom: 0 !important;
+}
+
+.ant-btn-link {
+  color: var(--primary-color) !important;
+  &.ant-btn-dangerous {
+    color: var(--danger-color) !important;
+  }
+}
+
+.ant-notification-notice-message {
+  margin-bottom: 0 !important;
+}
+
+.spin360 {
+  display: inline-block;
+  animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

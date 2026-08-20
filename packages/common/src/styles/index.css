@@ -1,0 +1,41 @@
+/* Import Tailwind theme */
+@import "./tailwind-theme.css";
+
+/* Additional global styles */
+
+@keyframes right-to-left-slide {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes keypad-press {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(0.96);
+    filter: brightness(0.97);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+/*
+  Add this class on any clickable button to show tactile feedback on press.
+  Note: Use it as a normal className: className="button-pulse"
+*/
+.button-pulse {
+  transform-origin: center;
+  will-change: transform, filter;
+}
+
+.button-pulse:active {
+  animation: keypad-press 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
