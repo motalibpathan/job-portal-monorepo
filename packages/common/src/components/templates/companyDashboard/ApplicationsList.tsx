@@ -40,7 +40,7 @@ const ApplicationsList: React.FC = () => {
   const { onLogout } = useAuthContext();
   const [jobs, setJobs] = useState<IJob[]>([]);
   const [applications, setApplications] = useState<IJobApplication[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   const [selectedJobId, setSelectedJobId] = useState<string>("all");
@@ -97,6 +97,9 @@ const ApplicationsList: React.FC = () => {
   useEffect(() => {
     if (jobs.length > 0 || selectedJobId !== "all") {
       getJobApplicationsApiAction();
+    } else {
+      setApplications([]);
+      setLoading(false);
     }
   }, [getJobApplicationsApiAction, jobs.length, selectedJobId]);
 

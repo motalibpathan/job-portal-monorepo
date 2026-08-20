@@ -212,6 +212,7 @@ const TeamMembersPage: React.FC = () => {
               <Paragraph $level={4} $typographyPalette="subtitle" className="!mb-0">
                 Upgrade to a paid plan to add team members to your company.
               </Paragraph>
+              <div className={"h-4"} />
               <Button
                 type="outlined"
                 color="primary"
