@@ -22,29 +22,28 @@ import {
   COMPANY_SETTINGS,
   COMPANY_TEAM,
   COMPANY_TEAM_JOIN,
-  HOME,
   LOGIN,
   ONBOARDING_COMPANY,
   REGISTER,
 } from "@job-portal/common/src/HOC/routes/routes";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import { useAuthContext } from "@job-portal/common/src/HOC/contexts/General/AuthContext/useAuthContext";
 import CompanySetup from "../../components/templates/company/CompanySetup";
-import UserHome from "../../components/templates/home/UserHome";
 import LoginPage from "../../components/templates/login/LoginPage";
 import SignupPage from "../../components/templates/signup/SignupPage";
+
+const RootRedirect: React.FC = () => {
+  const { isAuthenticated } = useAuthContext();
+  return isAuthenticated ? <Navigate to={COMPANIES} replace /> : <Navigate to={LOGIN} replace />;
+};
 
 const router = createBrowserRouter([
   {
     errorElement: <ErrorElement />,
     children: [
+      { path: "/", element: <RootRedirect /> },
       { path: LOGIN, element: <LoginPage /> },
       { path: REGISTER, element: <SignupPage /> },
-      {
-        path: HOME,
-        element: (
-          <PrivateRoute component={UserHome} layout={DashboardLayout} />
-        ),
-      },
       {
         path: ONBOARDING_COMPANY,
         element: (
