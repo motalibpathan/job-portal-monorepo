@@ -21,3 +21,13 @@ export function getCompanyPortalUrl(company: ICompany): string {
   }
   return `https://${company.userName}.${ROOT_URL}`;
 }
+
+const JOB_PORTAL_URL =
+  import.meta.env.VITE_JOB_PORTAL_URL || "localhost:3000";
+
+export function getJobPortalUrl(company: ICompany): string {
+  if (isLocalEnvironment()) {
+    return `http://${company.userName}.localhost:3000`;
+  }
+  return `https://${company.userName}.${JOB_PORTAL_URL}`;
+}

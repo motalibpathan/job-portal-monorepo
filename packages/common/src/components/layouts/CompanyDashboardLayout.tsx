@@ -1,6 +1,7 @@
 import {
   CreditCardOutlined,
   DashboardOutlined,
+  ExportOutlined,
   FileTextOutlined,
   SettingOutlined,
   ShopOutlined,
@@ -22,9 +23,22 @@ import {
   COMPANY_JOBS,
   COMPANY_SETTINGS,
   COMPANY_TEAM,
+  COMPANY_VIEW_JOBS_PAGE,
 } from "../../HOC/routes/routes";
 
 const { Sider, Header, Content } = Layout;
+
+const JOB_PORTAL_URL =
+  import.meta.env.VITE_JOB_PORTAL_URL || "localhost:3000";
+
+function getJobPortalUrl(userName: string): string {
+  const hostname = window.location.hostname;
+  const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
+  if (isLocal) {
+    return `http://${userName}.localhost:3000`;
+  }
+  return `https://${userName}.${JOB_PORTAL_URL}`;
+}
 
 const CompanyDashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
@@ -45,6 +59,11 @@ const CompanyDashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
         key: COMPANY_JOBS(userName),
         icon: <FileTextOutlined />,
         label: "Jobs",
+      },
+      {
+        key: COMPANY_VIEW_JOBS_PAGE(userName),
+        icon: <ExportOutlined />,
+        label: "View Jobs Page",
       },
       {
         key: COMPANY_APPLICATIONS(userName),
@@ -118,7 +137,13 @@ const CompanyDashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
             mode="inline"
             items={menuItems}
             selectedKeys={selectedKey ? [selectedKey] : []}
-            onClick={({ key }) => navigate(key)}
+            onClick={({ key }) => {
+              if (userName && key === COMPANY_VIEW_JOBS_PAGE(userName)) {
+                window.open(getJobPortalUrl(userName), "_blank");
+              } else {
+                navigate(key);
+              }
+            }}
             className="border-none"
           />
         </Sider>

@@ -39,6 +39,8 @@ export const COMPANY_SETTINGS = (userName: string) =>
   `/companies/${userName}/settings`;
 export const COMPANY_BILLING = (userName: string) =>
   `/companies/${userName}/billing`;
+export const COMPANY_VIEW_JOBS_PAGE = (userName: string) =>
+  `/companies/${userName}/view-jobs-page`;
 
 // Admin portal
 export const ADMIN_HOME = "/admin";
