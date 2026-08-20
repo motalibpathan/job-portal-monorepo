@@ -10,6 +10,7 @@ export const RESET_PASSWORD = "/reset-password";
 export const HOME = "/";
 export const NOT_FOUND = "/404";
 export const ONBOARDING_COMPANY = "/onboarding/company";
+export const PRICING = "/pricing";
 
 // User portal
 export const JOBS = "/jobs";
@@ -36,6 +37,8 @@ export const COMPANY_TEAM_JOIN = (userName: string) =>
   `/companies/${userName}/team/join`;
 export const COMPANY_SETTINGS = (userName: string) =>
   `/companies/${userName}/settings`;
+export const COMPANY_BILLING = (userName: string) =>
+  `/companies/${userName}/billing`;
 
 // Admin portal
 export const ADMIN_HOME = "/admin";

@@ -1,6 +1,7 @@
 import { CompanyDashboardLayout } from "@job-portal/common/src/components/layouts/CompanyDashboardLayout";
 import { DashboardLayout } from "@job-portal/common/src/components/layouts/DashboardLayout";
 import ApplicationsList from "@job-portal/common/src/components/templates/companyDashboard/ApplicationsList";
+import BillingPage from "@job-portal/common/src/components/templates/companyDashboard/BillingPage";
 import CompanyInfoForm from "@job-portal/common/src/components/templates/companyDashboard/CompanyInfoForm";
 import DashboardOverview from "@job-portal/common/src/components/templates/companyDashboard/DashboardOverview";
 import JobForm from "@job-portal/common/src/components/templates/companyDashboard/JobForm";
@@ -9,11 +10,13 @@ import SettingsPage from "@job-portal/common/src/components/templates/companyDas
 import TeamJoinPage from "@job-portal/common/src/components/templates/companyDashboard/TeamJoinPage";
 import TeamMembersPage from "@job-portal/common/src/components/templates/companyDashboard/TeamMembersPage";
 import CompaniesPage from "@job-portal/common/src/components/templates/companies/CompaniesPage";
+import PricingPage from "@job-portal/common/src/components/templates/pricing/PricingPage";
 import ErrorElement from "@job-portal/common/src/components/templates/errorElement/ErrorElement";
 import { PrivateRoute } from "@job-portal/common/src/HOC/routes/PrivateRoute";
 import {
   COMPANIES,
   COMPANY_APPLICATIONS,
+  COMPANY_BILLING,
   COMPANY_DASHBOARD,
   COMPANY_INFO,
   COMPANY_JOB_CREATE,
@@ -24,6 +27,7 @@ import {
   COMPANY_TEAM_JOIN,
   LOGIN,
   ONBOARDING_COMPANY,
+  PRICING,
   REGISTER,
 } from "@job-portal/common/src/HOC/routes/routes";
 import { createBrowserRouter, Navigate } from "react-router-dom";
@@ -143,6 +147,19 @@ const router = createBrowserRouter([
             layout={CompanyDashboardLayout}
           />
         ),
+      },
+      {
+        path: COMPANY_BILLING(":userName"),
+        element: (
+          <PrivateRoute
+            component={BillingPage}
+            layout={CompanyDashboardLayout}
+          />
+        ),
+      },
+      {
+        path: PRICING,
+        element: <PricingPage />,
       },
     ],
   },

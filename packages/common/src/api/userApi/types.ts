@@ -25,6 +25,8 @@ export interface ICompany {
   logoUrl?: string;
   description?: string;
   websiteUrl?: string;
+  plan?: TCompanyPlan;
+  planExpiresAt?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -212,6 +214,121 @@ export const JOB_HIRING_STAGE_COLOR_MAP: Record<TJobHiringStage, string> = {
   [JOB_HIRING_STAGES.ARCHIVE]: "default",
 };
 
+// ─── Company Plan ────────────────────────────────────────────────────────────
+
+export const COMPANY_PLAN = {
+  FREE: "free" as const,
+  BOOTSTRAP: "bootstrap" as const,
+  STARTUP: "startup" as const,
+  BUSINESS: "business" as const,
+};
+export const companyPlans = Object.values(COMPANY_PLAN);
+export type TCompanyPlan = (typeof companyPlans)[number];
+
+export const COMPANY_PLAN_TEXT_MAP: Record<TCompanyPlan, string> = {
+  [COMPANY_PLAN.FREE]: "Free",
+  [COMPANY_PLAN.BOOTSTRAP]: "Bootstrap",
+  [COMPANY_PLAN.STARTUP]: "Startup",
+  [COMPANY_PLAN.BUSINESS]: "Business",
+};
+
+export const PLAN_CONFIG: Record<
+  TCompanyPlan,
+  { price: number; activeJobLimit: number; teamMembers: number }
+> = {
+  [COMPANY_PLAN.FREE]: { price: 0, activeJobLimit: 2, teamMembers: 1 },
+  [COMPANY_PLAN.BOOTSTRAP]: { price: 29, activeJobLimit: 3, teamMembers: Infinity },
+  [COMPANY_PLAN.STARTUP]: { price: 49, activeJobLimit: 10, teamMembers: Infinity },
+  [COMPANY_PLAN.BUSINESS]: { price: 129, activeJobLimit: 20, teamMembers: Infinity },
+};
+
+// ─── Job Status ──────────────────────────────────────────────────────────────
+
+export const JOB_STATUS = {
+  ACTIVE: "active" as const,
+  DRAFT: "draft" as const,
+  CLOSED: "closed" as const,
+};
+export const jobStatuses = Object.values(JOB_STATUS);
+export type TJobStatus = (typeof jobStatuses)[number];
+
+export const JOB_STATUS_TEXT_MAP: Record<TJobStatus, string> = {
+  [JOB_STATUS.ACTIVE]: "Active",
+  [JOB_STATUS.DRAFT]: "Draft",
+  [JOB_STATUS.CLOSED]: "Closed",
+};
+
+export const JOB_STATUS_COLOR_MAP: Record<TJobStatus, string> = {
+  [JOB_STATUS.ACTIVE]: "success",
+  [JOB_STATUS.DRAFT]: "default",
+  [JOB_STATUS.CLOSED]: "error",
+};
+
+// ─── Subscription Status ─────────────────────────────────────────────────────
+
+export const SUBSCRIPTION_STATUS = {
+  ACTIVE: "active" as const,
+  CANCELLED: "cancelled" as const,
+  EXPIRED: "expired" as const,
+};
+export const subscriptionStatuses = Object.values(SUBSCRIPTION_STATUS);
+export type TSubscriptionStatus = (typeof subscriptionStatuses)[number];
+
+export const SUBSCRIPTION_STATUS_TEXT_MAP: Record<TSubscriptionStatus, string> = {
+  [SUBSCRIPTION_STATUS.ACTIVE]: "Active",
+  [SUBSCRIPTION_STATUS.CANCELLED]: "Cancelled",
+  [SUBSCRIPTION_STATUS.EXPIRED]: "Expired",
+};
+
+export const SUBSCRIPTION_STATUS_COLOR_MAP: Record<TSubscriptionStatus, string> = {
+  [SUBSCRIPTION_STATUS.ACTIVE]: "success",
+  [SUBSCRIPTION_STATUS.CANCELLED]: "default",
+  [SUBSCRIPTION_STATUS.EXPIRED]: "error",
+};
+
+// ─── Billing Cycle ───────────────────────────────────────────────────────────
+
+export const BILLING_CYCLE = {
+  MONTHLY: "monthly" as const,
+  YEARLY: "yearly" as const,
+};
+export const billingCycles = Object.values(BILLING_CYCLE);
+export type TBillingCycle = (typeof billingCycles)[number];
+
+export const BILLING_CYCLE_TEXT_MAP: Record<TBillingCycle, string> = {
+  [BILLING_CYCLE.MONTHLY]: "Monthly",
+  [BILLING_CYCLE.YEARLY]: "Yearly",
+};
+
+// ─── Subscription / Transaction ──────────────────────────────────────────────
+
+export interface ISubscription {
+  _id: string;
+  companyId: string;
+  plan: TCompanyPlan;
+  billingCycle: TBillingCycle;
+  amount: number;
+  status: TSubscriptionStatus;
+  startDate: string;
+  endDate: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IBillingSubscriptionResponse {
+  plan: TCompanyPlan;
+  planExpiresAt?: string;
+  planConfig: { price: number; activeJobLimit: number; teamMembers: number };
+  activeJobCount: number;
+  subscription: ISubscription | null;
+}
+
+export interface IBillingTransactionsResponse {
+  transactions: ISubscription[];
+}
+
+// ─── Domain Types ────────────────────────────────────────────────────────────
+
 export interface IJobCategory {
   _id: string;
   companyId: string;
@@ -246,6 +363,7 @@ export interface IJob {
   employmentType: TJobEmploymentType;
   applicationForm: IApplicationFormField[];
   stages: IHiringStage[];
+  status: TJobStatus;
   createdAt?: string;
   updatedAt?: string;
 }

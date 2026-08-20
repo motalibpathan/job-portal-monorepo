@@ -3,6 +3,8 @@ import { BASE_URL } from "../../utils/config";
 import { privateApiRequest, publicApiRequest } from "../apiRequest";
 import {
   IAuthResponse,
+  IBillingSubscriptionResponse,
+  IBillingTransactionsResponse,
   ICompany,
   ICompanyStats,
   ICreateCompanyPayload,
@@ -359,4 +361,28 @@ export function joinTeamApi(userName: string, token: string) {
       .then((resp) => resolve(resp))
       .catch((err) => reject(err));
   });
+}
+
+// ─── Billing ─────────────────────────────────────────────────────────────────
+
+export function getBillingSubscriptionApi(userName: string) {
+  return new Promise<AxiosResponse<IBillingSubscriptionResponse>>(
+    (resolve, reject) => {
+      privateApiRequest
+        .get(`${BASE_URL}/api/${userName}/billing/subscription`)
+        .then((resp) => resolve(resp))
+        .catch((err) => reject(err));
+    },
+  );
+}
+
+export function getBillingTransactionsApi(userName: string) {
+  return new Promise<AxiosResponse<IBillingTransactionsResponse>>(
+    (resolve, reject) => {
+      privateApiRequest
+        .get(`${BASE_URL}/api/${userName}/billing/transactions`)
+        .then((resp) => resolve(resp))
+        .catch((err) => reject(err));
+    },
+  );
 }

@@ -1,4 +1,5 @@
 import {
+  CreditCardOutlined,
   DashboardOutlined,
   FileTextOutlined,
   SettingOutlined,
@@ -15,6 +16,7 @@ import { useCompanyContext } from "../../HOC/contexts/CompanyContext/useCompanyC
 import { useAuthContext } from "../../HOC/contexts/General/AuthContext/useAuthContext";
 import {
   COMPANY_APPLICATIONS,
+  COMPANY_BILLING,
   COMPANY_DASHBOARD,
   COMPANY_INFO,
   COMPANY_JOBS,
@@ -64,6 +66,11 @@ const CompanyDashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
         icon: <SettingOutlined />,
         label: "Settings",
       },
+      {
+        key: COMPANY_BILLING(userName),
+        icon: <CreditCardOutlined />,
+        label: "Billing",
+      },
     ];
   }, [userName]);
 
@@ -76,6 +83,7 @@ const CompanyDashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
       COMPANY_INFO(userName),
       COMPANY_TEAM(userName),
       COMPANY_SETTINGS(userName),
+      COMPANY_BILLING(userName),
     ];
     return (
       sections.find(
